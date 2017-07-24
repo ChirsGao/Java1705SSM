@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.situ.ssm.dao.StudentDao">
+	<!-- 查询所有学生信息 -->
+	<select id="findAll"  resultType="Student">
+	select * from student
+	</select>
+	<!-- 添加学生 -->
+	<insert id="add" parameterType="Student">
+		insert into student(name,age,gender,birthday,password) 
+		values(#{name},#{age},#{gender},#{birthday},#{password})
+	</insert>
+	<!-- 删除学生 -->
+	<delete id="delete" parameterType="Integer">
+		delete from student where id=#{id}
+	</delete>
+	<!-- 更新学生信息 -->
+	<update id="update" parameterType="Student">
+		update student 
+		set name=#{name},age=#{age},password=#{password},gender=#{gender},birthday=#{birthday} 
+		where id=#{id}
+	</update>
+	<!-- 根据id查询学生信息 -->
+	<select id="findById" resultType="Student">
+		select * from student where id=#{id}
+	</select>
+	<!-- 根据条件查找 -->
+	<resultMap type="Student" id="studentClassCourseInfoMap">
+		<result property="name" column="studentName"/>
+		<association property="clazz" javaType="Clazz">
+			<result property="name" column="className"/>
+			<collection property="courseList" ofType="Course">
+				<result property="name" column="name"/>
+				<result property="credit" column="credit"/>
+			</collection>
+		</association>
+	</resultMap>
+	<select id="findClassAndCourseByCondition" parameterType="Integer" resultMap="studentClassCourseInfoMap">
+	SELECT s.name as studentName ,co.name as name,c.name as ClassName,c.Name as className,
+	credit FROM student as s
+	inner join class as c on s.class_id=c.id
+	inner join class_course as cc on c.id=cc.class_id
+	inner join course as co on cc.course_id=co.id
+	where s.name like '%${value}%'
+	</select>
+</mapper>
