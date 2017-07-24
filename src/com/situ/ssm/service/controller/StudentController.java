@@ -52,13 +52,12 @@ public class StudentController {
 		studentService.delete(id);
 		return "redirect:/student/list.action";
 	}
-	@RequestMapping(value="/searchByCondition")
-	public ModelAndView searchByCondition(String name){
-		ModelAndView modelAndView = new ModelAndView();
-		studentService.findClassAndCourseByCondition(name);
-		modelAndView.setViewName("student_list");
-		return null;
-		
+	@RequestMapping(value="/findById")
+	public String findById(int id , Model model){
+		Student student = studentService.findById(id);
+		model.addAttribute("student", student);
+		return "redirect:/student/list.action";
 	}
+	
 	
 }

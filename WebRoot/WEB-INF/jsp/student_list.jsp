@@ -30,9 +30,9 @@
        <div>
 				<form id="searchForm" action="${pageContext.request.contextPath}/student/list.action" method="post">
 					<input type="hidden" name="pageIndex" id="pageIndex"/>
-					姓名:<input type="text" id="name" name="name" value="${searchCondition.name}"/>
+					请输入编号:<input type="text" id="name" name="id" value="id"/>
 					<button type="submit" class="btn btn-primary"
-					href="${pageContext.request.contextPath}/searchByCondition.action">搜索</button>
+					href="${pageContext.request.contextPath}/student/findById.action?id="+id>搜索</button>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<a class="btn btn-primary"
 						href="${pageContext.request.contextPath}/addStudent.jsp">添加学生</a>
@@ -73,7 +73,7 @@
 					  </td>
                       </td>
                       <td><a
-                          href="${pageContext.request.contextPath}/student?method=toUpdate&id=${student.getId()}">修改</a>
+                          href="${pageContext.request.contextPath}/student/toUpdate.action?id=${student.getId()}">修改</a>
                       </td>
                   </tr>
                </c:forEach>
